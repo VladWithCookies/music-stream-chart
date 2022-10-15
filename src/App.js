@@ -32,7 +32,7 @@ export default function App() {
     .range([0, innerWidth]);
 
   const yScale = scaleLinear()
-    .domain([-100, 100])
+    .domain([-200, 200])
     .range([innerHeight, 0]);
 
   const colorScale = scaleOrdinal()
@@ -99,7 +99,7 @@ export default function App() {
           />
         ), stackedData)}
       </g>
-      <g transform={`translate(${innerWidth + 100}, ${margin.top})`}>
+      <g transform={`translate(${innerWidth + 120}, ${margin.top})`}>
         {colorScale.domain().map((item, index) => (
           <g
             key={item}
