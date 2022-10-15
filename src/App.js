@@ -1,5 +1,5 @@
 import { prop, map, pipe, path } from 'ramda';
-import { scaleTime, scaleLinear, scaleOrdinal, extent, stack, stackOffsetSilhouette, area, curveBasis, timeFormat } from 'd3';
+import { scaleTime, scaleLinear, scaleOrdinal, extent, stack, stackOffsetExpand, area, curveBasis, timeFormat } from 'd3';
 
 import { MUSIC_GENRES_DATA_URL } from 'constants/data';
 import { COLORS } from 'constants/theme';
@@ -32,7 +32,7 @@ export default function App() {
     .range([0, innerWidth]);
 
   const yScale = scaleLinear()
-    .domain([-200, 200])
+    .domain([0, 1])
     .range([innerHeight, 0]);
 
   const colorScale = scaleOrdinal()
@@ -40,7 +40,7 @@ export default function App() {
     .range(COLORS);
 
   const createStack = stack()
-    .offset(stackOffsetSilhouette)
+    .offset(stackOffsetExpand)
     .keys(keys);
 
   const createArea = area()
@@ -99,8 +99,8 @@ export default function App() {
           />
         ), stackedData)}
       </g>
-      <g transform={`translate(${innerWidth + 120}, ${margin.top})`}>
-        {colorScale.domain().map((item, index) => (
+      <g transform={`translate(${innerWidth + 120}, ${margin.top + 8})`}>
+        {colorScale.domain().reverse().map((item, index) => (
           <g
             key={item}
             transform={`translate(0, ${index * 30})`}
