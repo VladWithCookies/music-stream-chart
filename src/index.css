@@ -1,4 +1,23 @@
 body {
   margin: 0;
   overflow: hidden;
+  font-family: Helvetica, sans-serif;
+  color: #585858;
+}
+
+.scale {
+  stroke: #dddddd;
+}
+
+.tick {
+  text-anchor: middle;
+}
+
+.area {
+  opacity: 0.7;
+}
+
+.label {
+  text-anchor: middle;
+  font-size: 1.5em;
 }

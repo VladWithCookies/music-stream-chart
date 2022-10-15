@@ -1,7 +1,8 @@
 import { prop, map, pipe, path } from 'ramda';
-import { scaleTime, scaleLinear, scaleOrdinal, extent, stack, stackOffsetNone, area } from 'd3';
+import { scaleTime, scaleLinear, scaleOrdinal, extent, stack, stackOffsetSilhouette, area, curveBasis, timeFormat } from 'd3';
 
 import { MUSIC_GENRES_DATA_URL } from 'constants/data';
+import { COLORS } from 'constants/theme';
 import useData from 'hooks/useData';
 
 export default function App() {
@@ -16,9 +17,9 @@ export default function App() {
 
   const margin = {
     top: 50,
-    right: 50,
-    bottom: 50,
-    left: 50,
+    right: 200,
+    bottom: 100,
+    left: 80,
   };
 
   const innerHeight = height - margin.top - margin.bottom;
@@ -31,23 +32,26 @@ export default function App() {
     .range([0, innerWidth]);
 
   const yScale = scaleLinear()
-    .domain([0, 200])
+    .domain([-100, 100])
     .range([innerHeight, 0]);
 
   const colorScale = scaleOrdinal()
     .domain(keys)
-    .range(['purple', 'brown', 'orange', 'yellow', 'green']);
+    .range(COLORS);
 
   const createStack = stack()
-    .offset(stackOffsetNone)
+    .offset(stackOffsetSilhouette)
     .keys(keys);
 
   const createArea = area()
+    .curve(curveBasis)
     .x(pipe(path(['data', 'Date']), xScale))
     .y0(pipe(prop(0), yScale))
     .y1(pipe(prop(1), yScale));
 
   const stackedData = createStack(data);
+
+  const formatTime = timeFormat('%Y');
 
   return (
     <svg
@@ -55,15 +59,47 @@ export default function App() {
       width={width}
     >
       <g transform={`translate(${margin.left}, ${margin.top})`}>
+        {map((tick) => (
+          <g
+            key={tick}
+            transform={`translate(${xScale(tick)}, 0)`}
+          >
+            <line
+              y2={innerHeight}
+              className="scale"
+            />
+            <text
+              y={innerHeight + 10}
+              dy="0.71em"
+              className="tick"
+            >
+              {formatTime(tick)}
+            </text>
+          </g>
+        ), xScale.ticks())}
+        <text
+          className="label"
+          transform={`translate(-30, ${innerHeight / 2}) rotate(-90)`}
+        >
+          Popularity
+        </text>
+        <text
+          x={innerWidth / 2}
+          y={innerHeight + 70}
+          className="label"
+        >
+          Time
+        </text>
         {map((item) => (
           <path
             key={item.key}
             d={createArea(item)}
             fill={colorScale(item.key)}
+            className="area"
           />
         ), stackedData)}
       </g>
-      <g transform={`translate(${innerWidth - 40}, ${margin.top})`}>
+      <g transform={`translate(${innerWidth + 100}, ${margin.top})`}>
         {colorScale.domain().map((item, index) => (
           <g
             key={item}
