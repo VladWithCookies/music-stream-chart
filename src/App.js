@@ -17,7 +17,7 @@ export default function App() {
 
   const margin = {
     top: 50,
-    right: 200,
+    right: 250,
     bottom: 100,
     left: 80,
   };
