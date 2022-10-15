@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/music-stream-chart/static/css/main.e379b226.css",
+    "main.js": "/music-stream-chart/static/js/main.7a315e44.js",
+    "index.html": "/music-stream-chart/index.html",
+    "main.e379b226.css.map": "/music-stream-chart/static/css/main.e379b226.css.map",
+    "main.7a315e44.js.map": "/music-stream-chart/static/js/main.7a315e44.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e379b226.css",
+    "static/js/main.7a315e44.js"
+  ]
+}
